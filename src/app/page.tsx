@@ -3,19 +3,15 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Footer from "@/components/Footer";
-import { getMode, getPid, setMode, setPid } from "@/lib/logging";
+import { getMode, setMode } from "@/lib/logging";
 import type { OrientationMode } from "@/lib/types";
 import { MODE_LABELS } from "@/lib/types";
 
 export default function HomePage() {
   const [mode, setModeState] = useState<OrientationMode>("cbt");
-  const [pid, setPidState] = useState("");
-  const [pidInput, setPidInput] = useState("");
 
   useEffect(() => {
     setModeState(getMode());
-    setPidState(getPid());
-    setPidInput(getPid() === "anonymous" ? "" : getPid());
   }, []);
 
   return (
@@ -42,28 +38,6 @@ export default function HomePage() {
       <section className="surface-card mt-6 p-6">
         <h2 className="mb-3 text-base font-semibold text-ink">研究設定</h2>
         <div className="space-y-4">
-          <div>
-            <label className="mb-1.5 block text-xs font-medium text-muted">受試者編號（可選，URL 參數 ?pid= 也會自動帶入）</label>
-            <div className="flex gap-2">
-              <input
-                value={pidInput}
-                onChange={(e) => setPidInput(e.target.value)}
-                placeholder="例：S001"
-                className="flex-1 rounded-lg border border-line bg-surface px-3 py-2 text-sm outline-none focus:border-accent"
-              />
-              <button
-                onClick={() => {
-                  setPid(pidInput.trim());
-                  setPidState(pidInput.trim() || "anonymous");
-                }}
-                className="btn-ghost text-sm"
-              >
-                儲存
-              </button>
-            </div>
-            {pid && pid !== "anonymous" && <p className="mt-1 text-xs text-emerald-700">已記錄編號：{pid}</p>}
-          </div>
-
           <div>
             <label className="mb-1.5 block text-xs font-medium text-muted">預設治療取向鏡頭</label>
             <div className="grid grid-cols-2 gap-2">
